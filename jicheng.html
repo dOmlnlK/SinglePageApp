@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+
+
+<script>
+
+    function Dan(position) {
+        this.position = position;
+    }
+
+    Dan.prototype.create = function () {
+        console.log('弹出位置：'+this.position);
+    }
+
+    demo1 = new Dan('right');
+    demo1.create()
+
+
+
+</script>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"/>
+	<style type="text/css">
+		*{margin:0;padding: 0}
+		body{font-family: Arial,"微软雅黑";font-size: 19px;}
+
+		#welcome{width: 100%}
+		img{width: 100%}
+
+		.tree{position: absolute;top:10%;}
+		.title{position: absolute;top:60%;}		
+		.logo{position: absolute;bottom: 20px}
+
+		
+		.tree span{
+			position: absolute;
+			display: block;
+			background: url(img/cloud.png);
+			background-size: 100%;		/*让背景图片铺满*/	
+			
+		}
+		/*大树移动*/
+		@keyframes tree {
+			100%{transform:translateY(0);}
+		}
+
+		.tree img{
+			transform: translateY(80px);
+			animation: tree 1s linear ;
+			animation-fill-mode: forwards;
+		}
+
+		/*白云移动*/
+		@keyframes cloud {
+			100%{transform:translateX(-10px);}
+		}
+		.tree span{
+			transform: translateX(50px);
+			animation: cloud 1s linear 0.5s infinite alternate;
+		}
+
+		/*标题移动*/
+		@keyframes mytitle {
+			100%{opacity:1;transform: translateY(0)}
+		}
+		.title img{
+			opacity: 0;
+			transform: translateY(80px);
+			animation: mytitle 1s;
+			animation-fill-mode: forwards;
+		}
+
+		.tree span:nth-of-type(1){
+			width:70px;
+			height:52px;
+			left:118px;
+			top:78px;
+		}
+		.tree span:nth-of-type(2){
+			width:50px;
+			height:38px;	
+			left:192px;
+			top:118px;
+		}
+		.tree span:nth-of-type(3){
+			width:48px;
+			height:30px;
+			left:257px;
+			top:80px;
+		}
+		
+		
+		
+		.shake{
+			/*不管父元素是绝对定位还是相对定位，子元素也会跟着父元素移动*/
+			width:28px;
+			height:31px;
+			display: block;
+			position: absolute;
+			background:url(img/shake.png);
+			right:40px;
+			top:-25px;
+			opacity: 1;
+			
+		}
+
+		
+		.page{display: none}
+		.show{display: block}
+
+		/*轮播图样式*/
+		li{list-style: none;}
+		.tabPic{width:100%;height:250px;position: relative;overflow: hidden;}
+		.tabPic .pic{width:500%;position: absolute;left:0;top:0;}
+		.pic li{width:20%;float: left;}
+		.pic li img{width:100%;height:250px;}
+		/*景点描述*/
+		.desc{
+			width: 100%;height: 40px;position: absolute;bottom: 0;
+		}
+		.desc p{color: #fff;line-height: 40px;text-indent: 26px}
+		.desc ul{position: absolute;right:20px;bottom: 18px}
+		.desc li{width: 8px;height: 8px;background: #ccc;float: left;border-radius: 50%;margin-left: 10px;}
+		.desc li.active{background: white}
+
+		/*景区评分*/
+		.score{position: relative;}
+		.score h2{font-size: 20px;padding:10px;}
+		.score span{padding:10px;}
+		.score li{line-height: 35px}
+		
+		.score>ul>li{position: relative;}
+		.star{position: absolute;right:30px;top:0;}
+		.star li{width: 32px; height: 29px;  float: left; background: url(img/star.png) no-repeat -31px 0px;
+			background-size: cover;
+		}
+		/*被选中的星星的样式*/
+		.star .active{background-position: 0 0}
+
+		/*添加标签*/
+		.tags h2{font-size: 20px;padding: 10px}
+		.tags input{display: none;}
+		.tags span{
+			display: inline-block;
+			width: 70px;
+			border:1px solid #666;
+			text-align: center;
+			padding: 10px 5px;
+			border-radius: 12px;
+			margin:8px 15px;
+		}
+		.tags input:checked+span{
+			border:none;
+			background: #3c9bbb;
+			color:#fff;
+		}
+
+		/*提交按钮*/
+		.submit{width:100%;position: absolute;bottom: 0;text-align: center;}
+		.submit input{width:100%;height: 40px;background: #3c9bbb;color:#fff;border-radius: 10px;font-size: 18px}
+		.submit p{opacity: 0;}
+
+
+	</style>
+</head>
+<body>
+	<!-- 欢迎页面 -->
+	<div id="welcome" class="page show">
+		<!-- 大树 -->
+		<div class="tree">
+			<img src="img/tree.jpg">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<!-- 标题部分 -->
+		<div class="title">
+			<img src="img/title.png">
+			<span class="shake"></span>
+		</div>
+		<!-- 底部说明 -->
+		<div class="logo">
+			<img src="img/logo.png">
+		</div>
+	</div>
+	<!-- 内容页面-评分页面 -->
+	<div id="content" class="page">
+		<!-- 轮播图 -->
+		<div class="tabPic">
+			<ul class="pic">
+				<li><img src="img/1.jpg"></li>
+				<li><img src="img/2.jpg"></li>
+				<li><img src="img/3.jpg"></li>
+				<li><img src="img/4.jpg"></li>
+				<li><img src="img/5.jpg"></li>
+			</ul>
+			<div class="desc">
+				<p>唐家岭一日游</p>
+				<ul>
+					<li class="active"></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<!-- 评分 -->
+		<div class="score">
+			<h2>请给景区评分</h2>
+			<ul>
+				<li>
+					<span>综合印象</span>
+					<ul class="star">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<input type="hidden" name="score" value="0">
+					</ul>
+				</li>
+				<li>
+					<span>服务指数</span>
+					<ul class="star">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<input type="hidden" name="score" value="0">
+					</ul>
+				</li>
+				<li>
+					<span>消费指数</span>
+					<ul class="star">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<input type="hidden" name="score" value="0">
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!-- 添加标签 -->
+		<div class="tags">
+			<h2>给景区添加标签</h2>
+			<label>
+				<input type="radio" name="tag" value="服务好">
+				<span>服务好</span>
+			</label>
+			<label>
+				<input type="radio" name="tag" value="服务好">
+				<span>服务好</span>
+			</label>
+			<label>
+				<input type="radio" name="tag" value="服务好">
+				<span>服务好</span>
+			</label>
+			<label>
+				<input type="radio" name="tag" value="服务好">
+				<span>服务好</span>
+			</label>
+			<label>
+				<input type="radio" name="tag" value="服务好">
+				<span>服务好</span>
+			</label>
+		</div>
+		<!-- 提交按钮 -->
+		<div class="submit">
+			<p class="msg"></p>
+			<input type="submit" name="submit" value="提交">
+		</div>
+	</div>
+	<!-- 感谢页面 -->
+	<div id="thank" class="page">
+		欢迎页面
+	</div>
+</body>
+
+
+<script>
+	window.setTimeout(function () {
+		var welcome = document.getElementById('welcome');
+		var content = document.getElementById('content');
+		welcome.className = 'page';
+		content.className = 'page show';
+    },3)
+
+	//轮播图滑动
+	ul = document.getElementsByClassName('pic')[0];
+
+	var startX = 0;
+	var prevdistance = 0;
+	ul.ontouchstart = function (ev) {
+        ul.style.transition = '';
+        startX = ev.changedTouches[0].pageX;
+		//console.log(ev.changedTouches[0].pageX)
+    }
+
+    ul.ontouchmove = function (ev) {
+	    var distance = ev.changedTouches[0].pageX - startX ;
+		truedistance = prevdistance + distance;
+	    ul.style.transform = 'translateX('+truedistance+'px)';
+        //console.log(distance)
+    }
+
+    ul.ontouchend = function (ev) {
+
+	    var page = Math.round(truedistance/document.body.clientWidth);
+        if(page<-4||page>0){
+            page = 0;
+		}
+        truedistance = page*document.body.clientWidth;
+        ul.style.transition = 'all 1s';
+        ul.style.transform = 'translateX('+truedistance+'px)';
+        prevdistance = truedistance
+
+        //给轮播图片对应li标签加上active
+        li_list = document.getElementsByClassName('desc')[0].getElementsByTagName('li');
+        //先把所有active取消
+        for(var i=0;i<li_list.length;i++){
+            li_list[i].className = ''
+		}
+		li_list[Math.abs(page)].className = 'active';
+
+    }
+
+
+    //星星评分
+	star_ul_list = document.getElementsByClassName('star');
+	
+	for(var i=0;i<star_ul_list.length;i++){
+	    starScore(star_ul_list[i]);
+	}
+
+    function starScore(ul_list) {
+        var li_list = ul_list.getElementsByTagName('li');
+        for(var j=0;j<li_list.length;j++){
+            li_list[j].index = j;
+            li_list[j].ontouchstart = function () {
+                for(var k=0;k<li_list.length;k++){
+                        li_list[k].className = '';
+                    }
+
+                for(var k=0;k<li_list.length;k++){
+                    if(k<=this.index){
+                        li_list[k].className = 'active';
+                    }
+                }
+                input = this.parentNode.lastChild.previousSibling;
+				input.value = this.index + 1;
+
+            }
+        }
+    }
+
+
+
+</script>
+</html>
